@@ -1,0 +1,205 @@
+body {
+  margin: 0;
+  height: 100vh;
+  width: 100vw;
+
+  font-family: 'Segoe UI', sans-serif;
+  background-image: 
+  url("./images/landing-pg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+button {
+  background-color: #5f00ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* Full screen chat page */
+.chat-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* background-image: url('/your/background.jpg'); optional background */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Top navigation bar */
+/* .nav-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  padding: 20px;
+  background-color: transparent;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-bar a {
+  color: white;
+  text-decoration: underline;
+  font-size: 18px;
+} */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: #f8f9ff; /* very light blue/gray background */
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar__logo img {
+  height: 30px;
+}
+
+.navbar__brand {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #000040;
+  letter-spacing: 1px;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 30px;
+}
+
+.navbar__links a {
+  text-decoration: none;
+  color: #000040;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar__links a:hover {
+  color: #0055cc;
+}
+
+.navbar__login .login-button {
+  background-color: #000040;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.navbar__login .login-button:hover {
+  background-color: #1a1a80;
+}
+
+
+/* Centered chat container */
+.chat-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Chat box */
+.chat-box {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 80vh; /* fixed height so messages area can scroll */
+}
+
+/* Title */
+.chat-title {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Scrollable messages window */
+.messages-window {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+/* Chat message styles */
+.message {
+  margin-bottom: 15px;
+  white-space: pre-wrap;
+}
+
+.message.user {
+  color: #2c3e50;
+}
+
+.message.bot {
+  color: #4a235a;
+}
+
+/* Input section */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-section textarea {
+  resize: none;
+  width: 100%;
+  height: 60px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.input-section button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #6c00ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.input-section button:hover {
+  background-color: #4500aa;
+}
+
+/* Floating history icon */
+.history-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #6c00ff;
+}
