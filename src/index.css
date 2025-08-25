@@ -1,15 +1,52 @@
+.landing-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px 60px; /* top, sides, bottom spacing */
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  background-size: cover;
+  background-position: center;
+}
+
 body {
   margin: 0;
-  height: 100vh;
-  width: 100vw;
-
   font-family: 'Segoe UI', sans-serif;
-  background-image: 
-  url("./images/landing-pg.png");
+  background-image: url("./images/landing-pg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: white;
+}
+
+/* Content box */
+.landing-content {
+  max-width: 700px;
+}
+
+/* Heading */
+.landing-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+/* Paragraph */
+.landing-content p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* Button styling */
+.landing-content button {
+  background-color: #5f00ff;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
 }
 
 button {
@@ -21,41 +58,50 @@ button {
   cursor: pointer;
 }
 
-/* Full screen chat page */
-.chat-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  /* background-image: url('/your/background.jpg'); optional background */
-  background-size: cover;
-  background-position: center;
-  position: relative;
+.landing-content button:hover {
+  background-color: #4b00cc;
 }
 
-/* Top navigation bar */
-/* .nav-bar {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-  padding: 20px;
-  background-color: transparent;
-  font-weight: bold;
-  color: white;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .landing-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .landing-content p {
+    font-size: 1rem;
+  }
+
+  .landing-content button {
+    width: 100%;
+    padding: 14px;
+  }
 }
 
-.nav-bar a {
-  color: white;
-  text-decoration: underline;
-  font-size: 18px;
-} */
+@media (max-width: 480px) {
+  .landing-content h1 {
+    font-size: 1.8rem;
+  }
 
+  .landing-content p {
+    font-size: 0.95rem;
+  }
+
+  .landing-content button {
+    font-size: 1rem;
+  }
+}
+
+/* ========== BASE NAVBAR STYLES ========== */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
-  background-color: #f8f9ff; /* very light blue/gray background */
+  padding: 10px 60px;
+  background-color: #495076; /* very light blue/gray background */
   font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  z-index: 10;
 }
 
 .navbar__logo {
@@ -105,34 +151,54 @@ button {
   background-color: #1a1a80;
 }
 
-
-/* Centered chat container */
-.chat-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+/* ========== HAMBURGER ICON ========== */
+.navbar__toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #000040;
 }
 
-/* Chat box */
-.chat-box {
-  background: white;
-  width: 100%;
-  max-width: 600px;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 80vh; /* fixed height so messages area can scroll */
+/* ========== RESPONSIVE STYLES ========== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 20px 30px;
+  }
+
+  .navbar__toggle {
+    display: block;
+  }
+
+  .navbar__links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9ff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 2rem;
+    display: none;
+    gap: 20px;
+    border-top: 1px solid #ddd;
+  }
+
+  .navbar__links.active {
+    display: flex;
+  }
+
+  .navbar__links a {
+    width: 100%;
+    padding: 0.5rem 0;
+  }
 }
 
 /* Title */
 .chat-title {
   margin-bottom: 10px;
   color: #333;
+  align-self: center;
+  /* font-size: 1.5rem; */
 }
 
 /* Scrollable messages window */
@@ -147,25 +213,19 @@ button {
 }
 
 /* Chat message styles */
-.message {
+/* .message {
   margin-bottom: 15px;
   white-space: pre-wrap;
 }
 
 .message.user {
   color: #2c3e50;
-}
+} */
 
 .message.bot {
   color: #4a235a;
 }
 
-/* Input section */
-.input-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
 
 .input-section textarea {
   resize: none;
@@ -174,7 +234,7 @@ button {
   padding: 10px;
   font-size: 16px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
 }
 
 .input-section button {
@@ -202,4 +262,202 @@ button {
   font-size: 20px;
   cursor: pointer;
   color: #6c00ff;
+}
+
+/* ######################## FOOTER ############################ */
+/* components/Footer.css */
+.footer {
+  background-color: #ffffff;
+  padding: 10px 5px 15px;
+  text-align: center;
+  color: #333;
+  border-top: 1px solid #eee;
+}
+
+.footer__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.footer__text {
+  font-size: 0.95rem;
+  color: #666;
+  max-width: 500px;
+  margin: 0 auto 20px;
+  line-height: 1.5;
+}
+
+.footer__socials {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.3rem;
+}
+
+.footer__socials a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer__socials a:hover {
+  color: #5f00ff;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .footer__text {
+    font-size: 0.85rem;
+    padding: 0 10px;
+  }
+}
+
+
+/* #################  APP.css ####################### */
+/* In App.css or global styles */
+/* Full-height flex layout */
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Allows main content to expand */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: Ensure no overflow issues on mobile */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ################################################# */
+
+/* Chat page background */
+.chat-page {
+  /* background-image: url('/bg.jpg'); */
+  background-size: cover;
+  background-position: center;
+  height: 70vh;
+  overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Main container */
+.chat-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Chat box */
+.chat-box {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Chat title */
+.chat-title {
+  margin-bottom: 10px;
+}
+
+/* Messages scrollable area */
+.messages-window {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  max-height: 200px;
+}
+
+/* User message */
+.message.user {
+  background: #e0f7fa;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* Bot message */
+.message.bot {
+  background: #f1f8e9;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+/* Input section */
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  margin: 0  1rem;
+}
+
+/* Text area */
+textarea {
+  height: 60px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  resize: none;
+  border: 1px solid #ccc;
+}
+
+/* Send button */
+button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #6c00ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Disabled state */
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Spinner animation */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffffff;
+  border-top: 3px solid #6c00ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
