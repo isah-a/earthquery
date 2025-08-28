@@ -88,7 +88,7 @@ const ChatCanvas = () => {
       <div className="input-area">
         <textarea
           ref={textareaRef}
-          placeholder="Ask about weather, floods, or forecasts..."
+          placeholder="Explain urban heat islands in Africa."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading}
