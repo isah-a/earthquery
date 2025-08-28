@@ -1,49 +1,74 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-// import './ChatCanvas.css'; // make sure to import the CSS file
+import Footer from './Footer';
 
 const ChatCanvas = () => {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
+  const [abortController, setAbortController] = useState(null);
+
+  const handleStop = () => {
+    if (abortController) abortController.abort();
+  };
+
+  const formatTimeDiff = (ms) => {
+    const seconds = Math.floor((ms / 1000) % 60).toString().padStart(2, '0');
+    const minutes = Math.floor((ms / (1000 * 60)) % 60).toString().padStart(2, '0');
+    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24).toString().padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
-    const userMessage = { type: 'user', text: input };
+    const sentTime = new Date();
+    const userMessage = { type: 'user', text: input, timestamp: sentTime };
+    const controller = new AbortController();
+    setAbortController(controller);
     const startTime = Date.now();
+
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/chat', {
+      const res = await fetch('https://earthquery-agentic-rag.onrender.com/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: input }),
+        signal: controller.signal,
       });
 
       const endTime = Date.now();
-      const elapsedSeconds = ((endTime - startTime) / 1000).toFixed(2);
+      const elapsed = endTime - startTime;
 
       if (!res.ok) throw new Error('Server error');
 
       const data = await res.json();
       const botMessage = {
         type: 'bot',
-        text: `${data.response}\n\n⏱ *Response time: ${elapsedSeconds}s*`
+        text: data.response,
+        timestamp: new Date(),
+        responseTime: formatTimeDiff(elapsed)
       };
 
       setMessages(prev => [...prev, botMessage]);
     } catch (err) {
-      console.error(err);
-      setMessages(prev => [
-        ...prev,
-        { type: 'bot', text: '❌ Failed to get response from backend.' },
-      ]);
+      const errorText = err.name === 'AbortError'
+        ? '⛔ Request was cancelled.'
+        : '❌ Failed to get response from backend.';
+
+      setMessages(prev => [...prev, {
+        type: 'bot',
+        text: errorText,
+        timestamp: new Date()
+      }]);
     } finally {
       setIsLoading(false);
+      setAbortController(null);
     }
   };
 
@@ -51,42 +76,59 @@ const ChatCanvas = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    if (!isLoading && textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, [isLoading]);
+
   return (
-    <div className="chat-page">
-      <div className="chat-container">
-        <div className="chat-box">
-          <h2 className="chat-title">What would you like to learn today?</h2>
-
-          {messages.length > 0 && (
-            <div className="messages-window">
-              {messages.map((msg, i) => (
-                <div key={i} className={`message ${msg.type}`}>
-                  <strong>{msg.type === 'user' ? 'You:' : 'Bot:'}</strong>
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
-            </div>
+    <div className="chat-canvas-container">
+    <div className="chat-wrapper">
+      <div className="input-area">
+        <textarea
+          ref={textareaRef}
+          placeholder="Ask about weather, floods, or forecasts..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          disabled={isLoading}
+        />
+        <button onClick={isLoading ? handleStop : handleSend}>
+          {isLoading ? (
+            <>
+              <span className="spinner" /> Stop
+            </>
+          ) : (
+            'Send'
           )}
-
-          <div className="input-section">
-            <textarea
-              placeholder="Ask about weather, floods, or forecasts..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              disabled={isLoading}
-            />
-            <button onClick={handleSend} disabled={isLoading}>
-              {isLoading ? (
-                <span className="spinner"></span>
-              ) : (
-                'Send'
-              )}
-            </button>
-          </div>
-        </div>
+        </button>
       </div>
+
+      {messages.length > 0 && (
+        <div className="messages-window">
+          {messages.map((msg, i) => (
+            <div key={i} className={`message-bubble ${msg.type}`}>
+              <div className="message-header">
+                {msg.type === 'user' ? 'You' : 'Response'}
+              </div>
+              <ReactMarkdown>{msg.text}</ReactMarkdown>
+              <div className="message-meta">
+                Requested: {msg.timestamp.toLocaleString()}
+                {msg.responseTime && (
+                  <span> ⏱ {msg.responseTime}</span>
+                )}
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+      )}
     </div>
+    {/* Footer */}
+    <div style={{ marginTop: '100px', padding: '0 20px', backgroundColor: '#f2f2f2' }}>
+      <Footer />
+    </div>
+  </div>
   );
 };
 
